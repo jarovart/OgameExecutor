@@ -9,9 +9,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class OgameExec {
@@ -27,9 +28,10 @@ public class OgameExec {
 
 
     public OgameExec() throws IOException {
-        this.driver = initDriver();
+        Map<String, String> userData = loadCredentials();
+        this.driver = initDriver(userData.get("OnlyHeadless"));
         loginController = new LoginController(driver);
-        Map<String, String> userData = loginController.loginWithCredentials();
+        loginController.loginWithCredentials(userData.get("Login"), userData.get("Password"), userData.get("ServerName"));
         menuController = new MenuController(driver);
         fleetController = new FleetController(driver, userData.get("ExpoPlanetNumber"), userData.get("OnlyCivilShips"), userData.get("maxKTransporter"), userData.get("maxGTransporter"));
         //resourcesController = new ResourcesController(driver);
@@ -64,7 +66,28 @@ public class OgameExec {
         //menuController = new MenuController(driver);
     }
 
+    private Map<String, String> loadCredentials() throws IOException {
+        Map<String, String> data = new HashMap<>();
+        File file=new File("ogameExecData.txt");    //creates a new file instance
+        FileReader fr=new FileReader(file);   //reads the file
+        BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream
+        StringBuffer sb=new StringBuffer();    //constructs a string buffer with no characters
+        String line;
+        while((line=br.readLine())!=null)
+        {
+            if(line.contains("//")){
+                line = line.substring(0, line.indexOf("//"));
+            }
+            System.out.println(Arrays.toString(line.split(":")));
+            String array[] = line.split(":");
+            if(array.length > 1){
+                data.put(array[0], array[1]);
+            }
 
+        }
+        fr.close();    //closes the stream and release the resources
+        return data;
+    }
 
     public void startSimulation(){
         while(true){
@@ -82,7 +105,7 @@ public class OgameExec {
 
     public void startApplication() throws IOException {
         driver.get("https://lobby.ogame.gameforge.com/de_DE/hub");
-        loginController.loginWithCredentials();
+        loginController.loginWithCredentials(null,null,null);
     }
     public static boolean start = false;
     public void clickOnGeneral(int number) throws InterruptedException {
@@ -104,10 +127,12 @@ public class OgameExec {
     }
 
 
-    private WebDriver initDriver() {
+    private WebDriver initDriver(String onlyHeadless) {
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--window-size=1920,1080", "disable-gpu", "--no-sandbox");
+        if(onlyHeadless != null && onlyHeadless.equalsIgnoreCase("yes")){
+            options.addArguments("--headless", "--window-size=1920,1080", "disable-gpu", "--no-sandbox");
+        }
         WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get("https://ogame.de/");

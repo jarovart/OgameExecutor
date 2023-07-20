@@ -31,7 +31,7 @@ public class FleetController {
         executedFleet = new ArrayList<>();
         fleetCount = 0;
         this.planetNumber = Integer.parseInt(planetNumber);
-        this.onlyCivilShips = onlyCivilShips != null && !onlyCivilShips.isEmpty() && Integer.parseInt(planetNumber) > 0;
+        this.onlyCivilShips = onlyCivilShips != null && !onlyCivilShips.equalsIgnoreCase("yes");
         this.maxKTransporter =  Integer.parseInt(maxKTransporter);
         this.maxGTransporter =  Integer.parseInt(maxGTransporter);
     }

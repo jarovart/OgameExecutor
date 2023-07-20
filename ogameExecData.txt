@@ -1,7 +1,8 @@
 Login:user@email.com
-Password:*****
-ExpoPlanetNumber:1
+Password:xxxxx
+ExpoPlanetNumber:1//index of planet order starts with 1
 ServerName:Last
-OnlyCivilShips:1
+OnlyCivilShips:Yes//no or empty
 maxKTransporter:15000
 maxGTransporter:6200
+OnlyHeadless:Yes//no or empty
