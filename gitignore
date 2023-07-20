@@ -1,5 +1,5 @@
-.idea
-out
-target
-chromedriver
+.idea/
+out/
+target/
+chromedriver.exe
 myamyartifacid--headless
