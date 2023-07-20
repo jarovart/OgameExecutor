@@ -1,0 +1,7 @@
+Login:user@email.com
+Password:*****
+ExpoPlanetNumber:1
+ServerName:Last
+OnlyCivilShips:1
+maxKTransporter:15000
+maxGTransporter:6200

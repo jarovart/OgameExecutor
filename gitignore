@@ -1,5 +1,7 @@
 /.idea/
 /out/
 /target/
+
 chromedriver.exe
 myamyartifacid--headless
+ogameExecData.txt
