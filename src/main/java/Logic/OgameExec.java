@@ -8,12 +8,12 @@ import net.thucydides.core.annotations.Managed;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class OgameExec {
 
@@ -29,7 +29,8 @@ public class OgameExec {
 
     public OgameExec() throws IOException {
         Map<String, String> userData = loadCredentials();
-        this.driver = initDriver(userData.get("OnlyHeadless"));
+        this.driver = initDriverFirefox("OnlyHeadless");
+        //this.driver = initDriverChrome(userData.get("OnlyHeadless"));
         loginController = new LoginController(driver);
         loginController.loginWithCredentials(userData.get("Login"), userData.get("Password"), userData.get("ServerName"));
         menuController = new MenuController(driver);
@@ -53,9 +54,11 @@ public class OgameExec {
             }
             if (isOk){
                 try {
+                    waiting += 5000; // Safe waiting
                     long seconds = (waiting/1000)%60;
                     long minutes = waiting/60000;
-                    System.out.println("waiting: "+minutes+" minutes and "+ seconds+ " seconds");
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+                    System.out.println("waiting: "+minutes+" minutes and "+ seconds+ " seconds"+ "Targettime: " + simpleDateFormat.format(new Date(System.currentTimeMillis()+waiting)));
                     Thread.sleep(waiting);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -127,7 +130,19 @@ public class OgameExec {
     }
 
 
-    private WebDriver initDriver(String onlyHeadless) {
+    private WebDriver initDriverFirefox(String onlyHeadless) {
+        //System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        FirefoxOptions options = new FirefoxOptions();
+        /*if(onlyHeadless != null && onlyHeadless.equalsIgnoreCase("yes")){
+            options.addArguments("--headless", "--window-size=1920,1080", "disable-gpu", "--no-sandbox");
+        }*/
+        WebDriver driver = new FirefoxDriver(options);
+        driver.manage().window().maximize();
+        driver.get("https://ogame.de/");
+        return driver;
+    }
+
+    private WebDriver initDriverChrome(String onlyHeadless) {
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         if(onlyHeadless != null && onlyHeadless.equalsIgnoreCase("yes")){
