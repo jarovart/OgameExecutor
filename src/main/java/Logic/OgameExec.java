@@ -54,7 +54,7 @@ public class OgameExec {
             }
             if (isOk){
                 try {
-                    waiting += 5000; // Safe waiting
+                    waiting += 5000; // Safe waiting.
                     long seconds = (waiting/1000)%60;
                     long minutes = waiting/60000;
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
