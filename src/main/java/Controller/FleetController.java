@@ -40,6 +40,7 @@ public class FleetController {
         final long expoDuration = 300000;
         long destinationTime = Long.MAX_VALUE;
         if (isFleetOnTheWay() && maxExpedition <= executedFleet.size()) {
+            executedFleet.sort(Comparator.comparing(Fleet::getDestinationTime));
             destinationTime = executedFleet.get(0).getDestinationTime().getTime()-System.currentTimeMillis();
             System.out.println("Expo size: " + executedFleet.size() + " fastest destination: " +
                     ((!executedFleet.isEmpty()) ? executedFleet.get(0).getDestinationTime() : ""));
