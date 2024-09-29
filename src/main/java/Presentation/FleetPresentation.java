@@ -456,15 +456,15 @@ public class FleetPresentation extends PageObject {
     }
 
     public Timestamp getDestinationTimeOfFleet(int index) {
+        Date currentDate = new Date(System.currentTimeMillis());
         String currentFleetDestinationXPath = MessageFormat.format(showCurrentExpoDestinationByIndex, String.valueOf(index+1));
         WebElement currentFleetDestination = getDriver().findElement(By.xpath(currentFleetDestinationXPath));
+        String timeString = currentFleetDestination.getText().replaceAll("Uhr","").trim();
 
-        Date currentDate = new Date(System.currentTimeMillis());
+        long returnTime = getTimeInMilliSecondsForThisDay(timeString, timeOfDayPattern);
         String formattedCurrentTime = formatDateToString(currentDate, timeOfDayPattern);
         long currentTime = getTimeInMilliSecondsForThisDay (formattedCurrentTime, timeOfDayPattern);
-        String timeString = currentFleetDestination.getText().replaceAll("Uhr","").trim();
-        long returnTime = getTimeInMilliSecondsForThisDay(timeString, timeOfDayPattern);
-        boolean returnIsOnNextDay = currentTime > returnTime;
+        boolean returnIsOnNextDay = (currentTime-60000) > returnTime;
 
         if (returnIsOnNextDay) {
             currentDate = addOneDayToDate(currentDate);
