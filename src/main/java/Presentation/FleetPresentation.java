@@ -208,6 +208,7 @@ public class FleetPresentation extends PageObject {
                 break;
             case SCHWERER_JAEGER:
                 element(setSchwererJaegerCount).waitUntilClickable().sendKeys(count.toString());
+                break;
             case KREUZER:
                 element(setKreuzerCount).waitUntilClickable().sendKeys(count.toString());
                 break;
@@ -219,6 +220,7 @@ public class FleetPresentation extends PageObject {
                 break;
             case BOMBER:
                 element(setBomberCount).waitUntilClickable().sendKeys(count.toString());
+                break;
             case ZERSTOERER:
                 element(setZerstoererCount).waitUntilClickable().sendKeys(count.toString());
                 break;
