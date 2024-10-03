@@ -155,6 +155,7 @@ public class FleetPresentation extends PageObject {
     private WebElement showAllFleetTypes;
 
     private final String showCurrentExpoDestinationByIndex = "//*[@class=\"fleetDetails detailsOpened\"][{0}]/*[@class=\"absTime\"]";
+    private final String showCurrentExpoDestinationToolTipByIndex = "//*[@class=\"fleetDetails detailsOpened\"][{0}]/*[@class=\"timer tooltip\"]";
     private String clickOnXthPlanet = "//*[@id=\"planetList\"]/div[{0}]/a";
     private final String timeOfDayPattern = "HH:mm:ss";
     private final String datePattern = "dd.MM.yyyy HH:mm:ss";
@@ -455,7 +456,7 @@ public class FleetPresentation extends PageObject {
         }
     }
 
-    public Timestamp getDestinationTimeOfFleet(int index) {
+    public Timestamp getDestinationTimeOfFleetOld(int index) {
         Date currentDate = new Date(System.currentTimeMillis());
         String currentFleetDestinationXPath = MessageFormat.format(showCurrentExpoDestinationByIndex, String.valueOf(index+1));
         WebElement currentFleetDestination = getDriver().findElement(By.xpath(currentFleetDestinationXPath));
@@ -472,6 +473,13 @@ public class FleetPresentation extends PageObject {
         String stringDate = formatDateToString(currentDate, datePattern);
         String date = stringDate.substring(0, stringDate.indexOf(' ')+1) + timeString;
         return new Timestamp(getCurrentTimeMillis(date, datePattern));
+    }
+
+    public Timestamp getDestinationTimeOfFleet(int index) {
+        String currentFleetDestinationXPath = MessageFormat.format(showCurrentExpoDestinationToolTipByIndex, String.valueOf(index+1));
+        WebElement currentFleetDestination = getDriver().findElement(By.xpath(currentFleetDestinationXPath));
+        String timeString = currentFleetDestination.getText();
+        return new Timestamp(System.currentTimeMillis()+getTimeInMilliSecondsFromString(timeString));
     }
 
     private Date addOneDayToDate(Date date){
@@ -497,5 +505,33 @@ public class FleetPresentation extends PageObject {
     private long getTimeInMilliSecondsForThisDay(String timeValue, String timePatter){
         LocalTime time = LocalTime.parse(timeValue, DateTimeFormatter.ofPattern(timePatter));
         return (time.getSecond() + time.getMinute() * 60 + time.getHour() * 3600) * 1000;
+    }
+
+    private long getTimeInMilliSecondsFromString(String timeValue){
+        String str = timeValue.trim();
+        String currentValue = "";
+        int day = 0;
+        int hour = 0;
+        int minute = 0;
+        int second = 0;
+        for(int i = 0; i < str.length(); i++){
+            char c = str.charAt(i);
+            if(Character.isDigit(c)){
+                currentValue += c;
+            } else if(c == 's'){
+                second = Integer.parseInt(currentValue);
+                currentValue = "";
+            }else if(c == 'm'){
+                minute = Integer.parseInt(currentValue);
+                currentValue = "";
+            }else if(c == 'h'){
+                hour = Integer.parseInt(currentValue);
+                currentValue = "";
+            }else if(c == 't'){
+                day = Integer.parseInt(currentValue);
+                currentValue = "";
+            }
+        }
+        return (second + (minute * 60) + (hour* 3600)+ (day * 86400)) * 1000;
     }
 }

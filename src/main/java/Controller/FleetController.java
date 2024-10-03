@@ -36,7 +36,7 @@ public class FleetController {
         this.maxGTransporter =  Integer.parseInt(maxGTransporter);
     }
 
-    public long fleetHasToBeExecuted() {
+    public long fleetHasToBeExecuted() { //outdated
         final long expoDuration = 300000;
         long destinationTime = Long.MAX_VALUE;
         if (isFleetOnTheWay() && maxExpedition <= executedFleet.size()) {
@@ -82,7 +82,11 @@ public class FleetController {
         if (executedFleet.size() != maxExpo) {
             List<Map<FleetType, Integer>> fleetMap = calculateAvailableFleet(openExpos);
             while (fleetMap.size() > 0 && openExpos > 0) {
-                startExpedition(fleetMap.remove(0));
+                Map<FleetType, Integer> currentFleet = fleetMap.remove(0);
+                if(!checkValidFleetMap(currentFleet)){
+                    continue;
+                }
+                startExpedition(currentFleet);
                 openExpos--;
             }
         }
@@ -102,6 +106,12 @@ public class FleetController {
         }else{
             return offSetWaiting+(destinationTime.getTime()-currentTime.getTime());
         }
+    }
+
+    private boolean checkValidFleetMap(Map<FleetType, Integer> currentFleet) {
+        int klTrCount = currentFleet.getOrDefault(FleetType.KLEINER_TRANSPORTER, 0);
+        int grTrCount = currentFleet.getOrDefault(FleetType.GROSSER_TRANSPORTER, 0);
+        return klTrCount > 0 || grTrCount > 0;
     }
 
     private long loadExpoFleetFromWebsite() {
@@ -155,7 +165,7 @@ public class FleetController {
         while(openExpos > 0){
             Map<FleetType, Integer> fleetMap = new HashMap<>();
             putOneAttackShipIntoMap(fleetMap, generatedFleetTypeList);
-            putPathFinderIntoMap(fleetMap, pathfinderCount);
+            pathfinderCount -= putPathFinderIntoMap(fleetMap, pathfinderCount, openExpos);
             putSpionagesondeIntoMap(fleetMap, spioCount);
             putGreatTransporterIntoMap(fleetMap, pairTransporter, openExpos);
             fleetMapList.add(fleetMap);
@@ -164,11 +174,15 @@ public class FleetController {
         return fleetMapList;
     }
 
-    private void putPathFinderIntoMap(Map<FleetType, Integer> fleetMap, int pathfinderCount) {
-        if(pathfinderCount > 0){
-            fleetMap.put(FleetType.PATHFINDER, 1);
-            pathfinderCount--;
+    private int putPathFinderIntoMap(Map<FleetType, Integer> fleetMap, int pathfinderCount, int openExpos) {
+        int pathExpoCount = (int)Math.ceil((double) pathfinderCount /openExpos);
+
+        if(pathExpoCount > 0 ){
+            int count = (pathExpoCount < maxGTransporter) ? pathExpoCount : maxGTransporter;
+            fleetMap.put(FleetType.PATHFINDER, count);
+            return count;
         }
+        return 0;
     }
 
     private void putSpionagesondeIntoMap(Map<FleetType, Integer> fleetMap, int spiosondeCount) {
@@ -334,7 +348,7 @@ public class FleetController {
           Map<FleetType, Integer> fleetTypeCount, Timestamp startTime, Timestamp destinationTime, Timestamp returnTime){
         Fleet fleet = new Fleet(name, fleetAttackType, fleetTypeCount, startTime, destinationTime, returnTime);
         executedFleet.add(fleet);
-        executedFleet.sort(Comparator.comparing(Fleet::getDestinationTime));
         fleetPresentation.executeWeiterPage2();
+        executedFleet.sort(Comparator.comparing(Fleet::getDestinationTime));
     }
 }

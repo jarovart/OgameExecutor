@@ -95,7 +95,7 @@ public class OgameExec {
     public void startSimulation(){
         while(true){
             try{
-                fleetController.fleetHasToBeExecuted();
+                //fleetController.fleetHasToBeExecuted();
                 wait(30000);
             }catch(Exception e){
                 e.printStackTrace();
