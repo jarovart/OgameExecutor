@@ -28,7 +28,7 @@ public class Fleet {
         this.returnTime = returnTime;
     }
 
-    public int getAllFleetTypeCounts(){
+    public int getAllFleetTypeCounts() {
         int count = 0;
         for (Map.Entry<FleetType, Integer> entry : fleetTypeCount.entrySet()) {
             count += entry.getValue();

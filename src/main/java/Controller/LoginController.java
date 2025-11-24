@@ -3,16 +3,14 @@ package Controller;
 import Presentation.LoginPresentation;
 import org.openqa.selenium.WebDriver;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 
-public class LoginController{
+public class LoginController {
 
     private LoginPresentation loginPresentation;
 
-    public LoginController(WebDriver driver){
+    public LoginController(WebDriver driver) {
         loginPresentation = new LoginPresentation(driver);
     }
 
@@ -20,15 +18,15 @@ public class LoginController{
         loginPresentation.loginWithCredentials(email, password, gameName);
     }
 
-    public void clickOnJoinGame(){
+    public void clickOnJoinGame() {
         loginPresentation.clickOnJoinGame();
     }
 
-    public boolean reJoinGame(){
+    public boolean reJoinGame() {
         return loginPresentation.reJoinGame();
     }
 
-    public void clickOnGeneral(String input){
+    public void clickOnGeneral(String input) {
         loginPresentation.clickOnGeneral(input);
     }
 

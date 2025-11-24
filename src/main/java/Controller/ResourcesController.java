@@ -7,13 +7,13 @@ import org.openqa.selenium.WebDriver;
 public class ResourcesController extends PageObject {
 
 
+    private final static double LIMIT_CAPACITY = 0.9;
     private ResourcesPresentation resourcesPresentation;
     private Long metalCapacity = 0L;
     private Long crystalCapacity = 0L;
     private Long deuteriumCapacity = 0L;
-    private final static double LIMIT_CAPACITY = 0.9;
 
-    public ResourcesController(WebDriver driver){
+    public ResourcesController(WebDriver driver) {
         super(driver);
         resourcesPresentation = new ResourcesPresentation(driver);
         resourcesPresentation.switchToResources();
@@ -24,64 +24,64 @@ public class ResourcesController extends PageObject {
         main();
     }
 
-    public void main(){
+    public void main() {
 
         //TIME
-        if(metalCapacity == 0){
+        if (metalCapacity == 0) {
             getResourcesCapacity();
         }
         updateEnergy();
         updateMines();
     }
 
-    private void updateEnergy(){
-        if(resourcesPresentation.getEnergyResources() < 0){
+    private void updateEnergy() {
+        if (resourcesPresentation.getEnergyResources() < 0) {
             resourcesPresentation.clickSolarpowerplant();
-            if(checkMetalCrystalRequirements()){
+            if (checkMetalCrystalRequirements()) {
                 resourcesPresentation.clickAusbauenButton();
                 //Zeit
             }
         }
     }
 
-    private void updateMines(){
+    private void updateMines() {
         resourcesPresentation.clickMetalmine();
         String mine = "Metall";
         Double value = calculateMineAmortisation();
 
         resourcesPresentation.clickCrystalmine();
         Double current = calculateMineAmortisation();
-        if(value > current){
+        if (value > current) {
             mine = "Kristall";
             value = current;
         }
 
         resourcesPresentation.clickDeutmine();
         current = calculateMineAmortisation();
-        if(value > current){
+        if (value > current) {
             mine = "Deuterium";
             value = current;
         }
 
-        if(mine.equals("Metall")){
+        if (mine.equals("Metall")) {
             resourcesPresentation.clickMetalmine();
-        }else if(mine.equals("Kristall")){
+        } else if (mine.equals("Kristall")) {
             resourcesPresentation.clickCrystalmine();
-        }else{
+        } else {
             resourcesPresentation.clickDeutmine();
         }
-        if(checkMetalCrystalRequirements()){
+        if (checkMetalCrystalRequirements()) {
             resourcesPresentation.clickAusbauenButton();
             //Zeit
         }
     }
 
-    private Double calculateMineAmortisation(){
-        return resourcesPresentation.getMetalRequirement()+
-                (resourcesPresentation.getCrystalRequirement()*1.5);
+    private Double calculateMineAmortisation() {
+        return resourcesPresentation.getMetalRequirement() +
+                (resourcesPresentation.getCrystalRequirement() * 1.5);
     }
 
-    private void getResourcesCapacity(){
+    private void getResourcesCapacity() {
         resourcesPresentation.switchToResourcesSettings();
         metalCapacity = resourcesPresentation.getMetalCapacity();
         crystalCapacity = resourcesPresentation.getCrystalCapacity();
@@ -90,38 +90,38 @@ public class ResourcesController extends PageObject {
         updateResourceCapacity();
     }
 
-    private void updateResourceCapacity(){
+    private void updateResourceCapacity() {
         resourcesPresentation.switchToResources();
-        if(metalCapacity < (resourcesPresentation.getMetalResources() * LIMIT_CAPACITY)){
+        if (metalCapacity < (resourcesPresentation.getMetalResources() * LIMIT_CAPACITY)) {
             resourcesPresentation.clickMetalCapacity();
-            if(checkMetalRequirements()){
+            if (checkMetalRequirements()) {
                 resourcesPresentation.clickAusbauenButton();
                 //Zeit
                 return;
             }
         }
-        if(crystalCapacity > (resourcesPresentation.getCrystalResources() * LIMIT_CAPACITY)){
+        if (crystalCapacity > (resourcesPresentation.getCrystalResources() * LIMIT_CAPACITY)) {
             resourcesPresentation.clickCrystalCapacity();
         }
-        if(deuteriumCapacity > (resourcesPresentation.getDeuteriumResources() * LIMIT_CAPACITY)) {
+        if (deuteriumCapacity > (resourcesPresentation.getDeuteriumResources() * LIMIT_CAPACITY)) {
             resourcesPresentation.clickDeutCapacity();
         }
-        if(checkMetalCrystalRequirements()) {
+        if (checkMetalCrystalRequirements()) {
             resourcesPresentation.clickAusbauenButton();
             //Zeit
         }
     }
 
-    private boolean checkMetalRequirements(){
+    private boolean checkMetalRequirements() {
         return resourcesPresentation.getOnlyMetalRequirement() < resourcesPresentation.getMetalResources();
     }
 
-    private boolean checkMetalCrystalRequirements(){
+    private boolean checkMetalCrystalRequirements() {
         return resourcesPresentation.getMetalRequirement() < resourcesPresentation.getMetalResources() &&
                 resourcesPresentation.getCrystalRequirement() < resourcesPresentation.getCrystalResources();
     }
 
-    private boolean checkMetalCrystalDeuteriumRequirements(){
+    private boolean checkMetalCrystalDeuteriumRequirements() {
         return resourcesPresentation.getMetalRequirement() < resourcesPresentation.getMetalResources() &&
                 resourcesPresentation.getCrystalRequirement() < resourcesPresentation.getCrystalResources() &&
                 resourcesPresentation.getDeutRequirement() < resourcesPresentation.getDeuteriumResources();

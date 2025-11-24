@@ -11,7 +11,7 @@ public class MenuController {
         menuPresentation = new MenuPresentation(driver);
     }
 
-    public void clickOnOverviewMenu(){
+    public void clickOnOverviewMenu() {
         menuPresentation.clickOnOverviewMenu();
     }
 }

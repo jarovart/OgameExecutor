@@ -11,26 +11,27 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class OgameExec {
 
 
+    public static boolean start = false;
+    private final LoginController loginController;
+    private final FleetController fleetController;
+    private final MenuController menuController;
     @Managed
     WebDriver driver;
-
-    private LoginController loginController;
     private ResourcesController resourcesController;
-    private FleetController fleetController;
-    private MenuController menuController;
-
 
     public OgameExec() throws IOException {
         Map<String, String> userData = loadCredentials();
         this.driver = initDriverFirefox("OnlyHeadless");
-        //this.driver = initDriverChrome(userData.get("OnlyHeadless"));
         loginController = new LoginController(driver);
         loginController.loginWithCredentials(userData.get("Login"), userData.get("Password"), userData.get("ServerName"));
         menuController = new MenuController(driver);
@@ -38,7 +39,7 @@ public class OgameExec {
         //resourcesController = new ResourcesController(driver);
 
         int exceptionCount = 0;
-        while(exceptionCount < 6) {
+        while (exceptionCount < 6) {
             long waiting = 60000;
             boolean isOk = true;
             try {
@@ -52,13 +53,13 @@ public class OgameExec {
                     throw t;
                 }
             }
-            if (isOk){
+            if (isOk) {
                 try {
                     waiting += 5000; // Safe waiting.
-                    long seconds = (waiting/1000)%60;
-                    long minutes = waiting/60000;
+                    long seconds = (waiting / 1000) % 60;
+                    long minutes = waiting / 60000;
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
-                    System.out.println("waiting: "+minutes+" minutes and "+ seconds+ " seconds"+ "Targettime: " + simpleDateFormat.format(new Date(System.currentTimeMillis()+waiting)));
+                    System.out.println("waiting: " + minutes + " minutes and " + seconds + " seconds" + "Targettime: " + simpleDateFormat.format(new Date(System.currentTimeMillis() + waiting)));
                     Thread.sleep(waiting);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -71,19 +72,18 @@ public class OgameExec {
 
     private Map<String, String> loadCredentials() throws IOException {
         Map<String, String> data = new HashMap<>();
-        File file=new File("ogameExecData.txt");    //creates a new file instance
-        FileReader fr=new FileReader(file);   //reads the file
-        BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream
-        StringBuffer sb=new StringBuffer();    //constructs a string buffer with no characters
+        File file = new File("ogameExecData.txt");    //creates a new file instance
+        FileReader fr = new FileReader(file);   //reads the file
+        BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream
+        StringBuffer sb = new StringBuffer();    //constructs a string buffer with no characters
         String line;
-        while((line=br.readLine())!=null)
-        {
-            if(line.contains("//")){
+        while ((line = br.readLine()) != null) {
+            if (line.contains("//")) {
                 line = line.substring(0, line.indexOf("//"));
             }
             System.out.println(Arrays.toString(line.split(":")));
-            String array[] = line.split(":");
-            if(array.length > 1){
+            String[] array = line.split(":");
+            if (array.length > 1) {
                 data.put(array[0], array[1]);
             }
 
@@ -92,12 +92,12 @@ public class OgameExec {
         return data;
     }
 
-    public void startSimulation(){
-        while(true){
-            try{
+    public void startSimulation() {
+        while (true) {
+            try {
                 //fleetController.fleetHasToBeExecuted();
                 wait(30000);
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 driver.navigate().refresh();
                 wait(10000);
@@ -108,20 +108,20 @@ public class OgameExec {
 
     public void startApplication() throws IOException {
         driver.get("https://lobby.ogame.gameforge.com/de_DE/hub");
-        loginController.loginWithCredentials(null,null,null);
+        loginController.loginWithCredentials(null, null, null);
     }
-    public static boolean start = false;
+
     public void clickOnGeneral(int number) throws InterruptedException {
         start = true;
         boolean gt = true;
         Thread.sleep(2000);
         long startTime = System.currentTimeMillis();
-        while(start){
-            System.out.println(System.currentTimeMillis()-startTime);
-            if(System.currentTimeMillis() - startTime > 60000){
+        while (start) {
+            System.out.println(System.currentTimeMillis() - startTime);
+            if (System.currentTimeMillis() - startTime > 60000) {
                 loginController.clickOnGeneral("0");
                 startTime = System.currentTimeMillis();
-            }else{
+            } else {
                 loginController.clickOnGeneral("8");
             }
             Thread.sleep(number);
@@ -145,7 +145,7 @@ public class OgameExec {
     private WebDriver initDriverChrome(String onlyHeadless) {
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        if(onlyHeadless != null && onlyHeadless.equalsIgnoreCase("yes")){
+        if (onlyHeadless != null && onlyHeadless.equalsIgnoreCase("yes")) {
             options.addArguments("--headless", "--window-size=1920,1080", "disable-gpu", "--no-sandbox");
         }
         WebDriver driver = new ChromeDriver(options);
@@ -162,10 +162,10 @@ public class OgameExec {
             e.printStackTrace();
         }
         driver.switchTo().window(tabs2.get(0)).close();
-        driver.switchTo().window(tabs2.get(tabs2.size()-1));
+        driver.switchTo().window(tabs2.get(tabs2.size() - 1));
     }
 
-    public void wait(int milliSeconds){
+    public void wait(int milliSeconds) {
         try {
             Thread.sleep(milliSeconds);
         } catch (InterruptedException e) {
@@ -175,7 +175,7 @@ public class OgameExec {
 
     public void closeAllWindowsExceptOne() {
         String originalHandle = driver.getWindowHandle();
-        for(String handle : driver.getWindowHandles()) {
+        for (String handle : driver.getWindowHandles()) {
             if (!handle.equals(originalHandle)) {
                 driver.switchTo().window(handle);
                 driver.close();

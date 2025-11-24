@@ -4,9 +4,11 @@ import Data.FleetAttackType;
 import Data.FleetType;
 import net.serenitybdd.core.annotations.findby.FindBy;
 import net.thucydides.core.pages.PageObject;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-import javax.print.attribute.standard.MediaSizeName;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -17,6 +19,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class FleetPresentation extends PageObject {
+
+    private final String showCurrentExpoDestinationByIndex = "//*[@class=\"fleetDetails detailsOpened\"][{0}]/*[@class=\"absTime\"]";
+    private final String showCurrentExpoDestinationToolTipByIndex = "//*[@class=\"fleetDetails detailsOpened\"][{0}]/*[@class=\"timer tooltip\"]";
+    private final String timeOfDayPattern = "HH:mm:ss";
+    private final String datePattern = "dd.MM.yyyy HH:mm:ss";
 
     @FindBy(xpath = "//*[@id=\"menuTable\"]/li[9]/a/span")
     private WebElement clickOnFleetMenu;
@@ -35,7 +42,6 @@ public class FleetPresentation extends PageObject {
     private WebElement showExpos;
     @FindBy(xpath = "/html/body/div[6]/div[3]/div[2]/div[1]/div/div[7]/h3")
     private WebElement noFleetMessage;
-
     //Show Fleet attack
     @FindBy(xpath = "//*[@id=\"military\"]/li[1]/span/span/span[1]")
     private WebElement showLeichterJaegerCount;
@@ -68,7 +74,6 @@ public class FleetPresentation extends PageObject {
     private WebElement showRecyclerCount;
     @FindBy(xpath = "//*[@id=\"civil\"]/li[5]/span/span/span[1]")
     private WebElement showSpionageSondeCount;
-
     //Set Fleet attack
     @FindBy(xpath = "//*[@id=\"military\"]/li[1]/input")
     private WebElement setLeichterJaegerCount;
@@ -101,13 +106,11 @@ public class FleetPresentation extends PageObject {
     private WebElement setRecyclerCount;
     @FindBy(xpath = "//*[@id=\"civil\"]/li[5]/input")
     private WebElement setSpionageSondeCount;
-
     //Execute
     @FindBy(xpath = "//*[@id=\"continueToFleet2\"]/span")
     private WebElement pressWeiter;
     @FindBy(xpath = "//*[@id=\"sendFleet\"]/span")
     private WebElement pressWeiterPage2;
-
     //Page 2
     @FindBy(xpath = "//*[@id=\"galaxy\"]")
     private WebElement setGalaxyInput;
@@ -115,7 +118,6 @@ public class FleetPresentation extends PageObject {
     private WebElement setSystemInput;
     @FindBy(xpath = "//*[@id=\"position\"]")
     private WebElement setPositionInput;
-
     //Mission
     @FindBy(xpath = "//*[@id=\"missionButton15\"]")
     private WebElement setExpedition;
@@ -137,7 +139,6 @@ public class FleetPresentation extends PageObject {
     private WebElement setVerbandsangriff;
     @FindBy(xpath = "//*[@id=\"missionButton9\"]")
     private WebElement setZerstoeren;
-
     //Resources
     @FindBy(xpath = "//*[@id=\"metal\"]")
     private WebElement setMetal;
@@ -145,7 +146,6 @@ public class FleetPresentation extends PageObject {
     private WebElement setCrystal;
     @FindBy(xpath = "//*[@id=\"deuterium\"]")
     private WebElement setDeuterium;
-
     //TimeSchedule
     @FindBy(xpath = "//*[@id=\"arrivalTime\"]")
     private WebElement getArrivalTime;
@@ -153,12 +153,7 @@ public class FleetPresentation extends PageObject {
     private WebElement getReturnTime;
     @FindBy(xpath = "//*[@class=\"fleetDetails detailsOpened\"]/*[@class=\"mission neutral textBeefy\"]")
     private WebElement showAllFleetTypes;
-
-    private final String showCurrentExpoDestinationByIndex = "//*[@class=\"fleetDetails detailsOpened\"][{0}]/*[@class=\"absTime\"]";
-    private final String showCurrentExpoDestinationToolTipByIndex = "//*[@class=\"fleetDetails detailsOpened\"][{0}]/*[@class=\"timer tooltip\"]";
     private String clickOnXthPlanet = "//*[@id=\"planetList\"]/div[{0}]/a";
-    private final String timeOfDayPattern = "HH:mm:ss";
-    private final String datePattern = "dd.MM.yyyy HH:mm:ss";
 
 
     public FleetPresentation(WebDriver driver) {
@@ -378,11 +373,12 @@ public class FleetPresentation extends PageObject {
         element(clickOnCurrentFleetList).waitUntilClickable().click();
     }
 
-    public void clickOnPlanet(Integer planetNumber){
+    public void clickOnPlanet(Integer planetNumber) {
         String xPathPlanet = MessageFormat.format(clickOnXthPlanet, planetNumber);
         Optional<WebElement> planet = getDriver().findElements(By.xpath(xPathPlanet)).stream().filter(Objects::nonNull).findFirst();
         planet.ifPresent(WebElement::click);
     }
+
     public String showCurrentExpo() {
         return element(showCurrentExpo).waitUntilPresent().getText();
     }
@@ -405,10 +401,10 @@ public class FleetPresentation extends PageObject {
 
     public List<Integer> showCurrentExpoFleetList() {
         List<Integer> expoFleet = new ArrayList<>();
-        List<WebElement> elements =  getDriver().findElements(By.xpath("//*[@class=\"fleetDetails detailsOpened\"]/*[@class=\"mission neutral textBeefy\"]"));
-        for(int i = 0; i < elements.size(); i++){
+        List<WebElement> elements = getDriver().findElements(By.xpath("//*[@class=\"fleetDetails detailsOpened\"]/*[@class=\"mission neutral textBeefy\"]"));
+        for (int i = 0; i < elements.size(); i++) {
             String type = elements.get(i).getText();
-            if(type.startsWith("Expedition")){
+            if (type.startsWith("Expedition")) {
                 expoFleet.add(i);
             }
         }
@@ -418,18 +414,18 @@ public class FleetPresentation extends PageObject {
     public Timestamp getReturnTimeOfFleet(WebElement element, int number) {
         try {
             String timeString;
-            if(!element(element).isPresent()){
+            if (!element(element).isPresent()) {
                 return new Timestamp(0);
             }
-            String index = "["+number+"]";
-            String prefix= "//*[@class=\"fleetDetails detailsOpened\"]";
-            List<WebElement> list = element(element).findElements(By.xpath(prefix+index+"//*[@class=\"nextabsTime\"]"));
-            if(!element(element).findElements(By.xpath(prefix+index+"//*[@class=\"nextabsTime\"]")).isEmpty()){
-                timeString = element(element).findElement(By.xpath(prefix+index+"//*[@class=\"nextabsTime\"]")).getText();
-            }else{
-                timeString = element(element).findElement(By.xpath(prefix+index+"//*[@class=\"absTime\"]")).getText();
+            String index = "[" + number + "]";
+            String prefix = "//*[@class=\"fleetDetails detailsOpened\"]";
+            List<WebElement> list = element(element).findElements(By.xpath(prefix + index + "//*[@class=\"nextabsTime\"]"));
+            if (!element(element).findElements(By.xpath(prefix + index + "//*[@class=\"nextabsTime\"]")).isEmpty()) {
+                timeString = element(element).findElement(By.xpath(prefix + index + "//*[@class=\"nextabsTime\"]")).getText();
+            } else {
+                timeString = element(element).findElement(By.xpath(prefix + index + "//*[@class=\"absTime\"]")).getText();
             }
-            timeString = timeString.replaceAll(" Uhr","");
+            timeString = timeString.replaceAll(" Uhr", "");
             LocalTime time = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
             long returnTime = (time.getSecond() + time.getMinute() * 60 + time.getHour() * 3600) * 1000;
             Date currentDate = new Date(System.currentTimeMillis());
@@ -446,7 +442,7 @@ public class FleetPresentation extends PageObject {
                 currentLocalDate.plusDays(1);
             }
             String stringDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(currentDate);
-            date = stringDate.substring(0, stringDate.indexOf(' ')+1) + timeString;
+            date = stringDate.substring(0, stringDate.indexOf(' ') + 1) + timeString;
 
             SimpleDateFormat inputFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
             Date inputDateTime = inputFormatter.parse(date);
@@ -458,35 +454,35 @@ public class FleetPresentation extends PageObject {
 
     public Timestamp getDestinationTimeOfFleetOld(int index) {
         Date currentDate = new Date(System.currentTimeMillis());
-        String currentFleetDestinationXPath = MessageFormat.format(showCurrentExpoDestinationByIndex, String.valueOf(index+1));
+        String currentFleetDestinationXPath = MessageFormat.format(showCurrentExpoDestinationByIndex, String.valueOf(index + 1));
         WebElement currentFleetDestination = getDriver().findElement(By.xpath(currentFleetDestinationXPath));
-        String timeString = currentFleetDestination.getText().replaceAll("Uhr","").trim();
+        String timeString = currentFleetDestination.getText().replaceAll("Uhr", "").trim();
 
         long returnTime = getTimeInMilliSecondsForThisDay(timeString, timeOfDayPattern);
         String formattedCurrentTime = formatDateToString(currentDate, timeOfDayPattern);
-        long currentTime = getTimeInMilliSecondsForThisDay (formattedCurrentTime, timeOfDayPattern);
-        boolean returnIsOnNextDay = (currentTime-60000) > returnTime;
+        long currentTime = getTimeInMilliSecondsForThisDay(formattedCurrentTime, timeOfDayPattern);
+        boolean returnIsOnNextDay = (currentTime - 60000) > returnTime;
 
         if (returnIsOnNextDay) {
             currentDate = addOneDayToDate(currentDate);
         }
         String stringDate = formatDateToString(currentDate, datePattern);
-        String date = stringDate.substring(0, stringDate.indexOf(' ')+1) + timeString;
+        String date = stringDate.substring(0, stringDate.indexOf(' ') + 1) + timeString;
         return new Timestamp(getCurrentTimeMillis(date, datePattern));
     }
 
     public Timestamp getDestinationTimeOfFleet(int index) {
-        String currentFleetDestinationXPath = MessageFormat.format(showCurrentExpoDestinationToolTipByIndex, String.valueOf(index+1));
+        String currentFleetDestinationXPath = MessageFormat.format(showCurrentExpoDestinationToolTipByIndex, String.valueOf(index + 1));
         WebElement currentFleetDestination = getDriver().findElement(By.xpath(currentFleetDestinationXPath));
         String timeString = currentFleetDestination.getText();
-        return new Timestamp(System.currentTimeMillis()+getTimeInMilliSecondsFromString(timeString));
+        return new Timestamp(System.currentTimeMillis() + getTimeInMilliSecondsFromString(timeString));
     }
 
-    private Date addOneDayToDate(Date date){
+    private Date addOneDayToDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_YEAR, 1);
-        return  calendar.getTime();
+        return calendar.getTime();
     }
 
     private long getCurrentTimeMillis(String date, String pattern) {
@@ -498,40 +494,42 @@ public class FleetPresentation extends PageObject {
             throw new RuntimeException(e);
         }
     }
-    private String formatDateToString(Date date, String pattern){
+
+    private String formatDateToString(Date date, String pattern) {
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
         return formatter.format(date);
     }
-    private long getTimeInMilliSecondsForThisDay(String timeValue, String timePatter){
+
+    private long getTimeInMilliSecondsForThisDay(String timeValue, String timePatter) {
         LocalTime time = LocalTime.parse(timeValue, DateTimeFormatter.ofPattern(timePatter));
         return (time.getSecond() + time.getMinute() * 60 + time.getHour() * 3600) * 1000;
     }
 
-    private long getTimeInMilliSecondsFromString(String timeValue){
+    private long getTimeInMilliSecondsFromString(String timeValue) {
         String str = timeValue.trim();
         String currentValue = "";
         int day = 0;
         int hour = 0;
         int minute = 0;
         int second = 0;
-        for(int i = 0; i < str.length(); i++){
+        for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
-            if(Character.isDigit(c)){
+            if (Character.isDigit(c)) {
                 currentValue += c;
-            } else if(c == 's'){
+            } else if (c == 's') {
                 second = Integer.parseInt(currentValue);
                 currentValue = "";
-            }else if(c == 'm'){
+            } else if (c == 'm') {
                 minute = Integer.parseInt(currentValue);
                 currentValue = "";
-            }else if(c == 'h'){
+            } else if (c == 'h') {
                 hour = Integer.parseInt(currentValue);
                 currentValue = "";
-            }else if(c == 't'){
+            } else if (c == 't') {
                 day = Integer.parseInt(currentValue);
                 currentValue = "";
             }
         }
-        return (second + (minute * 60) + (hour* 3600)+ (day * 86400)) * 1000;
+        return (second + (minute * 60) + (hour * 3600) + (day * 86400)) * 1000;
     }
 }
