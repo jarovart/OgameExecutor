@@ -12,14 +12,14 @@ on:
   push:
     branches:
       - main
-
+      
+permissions:
+  contents: write   # wichtig für automatisches Release
+  pull-requests: read
+  
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write   # wichtig für automatisches Release
-      pull-requests: read
 
     steps:
       - name: Checkout
