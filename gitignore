@@ -1,6 +1,78 @@
-/out/
-/target/
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
 
-chromedriver.exe
-myamyartifacid--headless
+# IntelliJ Workspace Files
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf/
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+### Java ###
+*.class
+*.log
+*.ctxt
+
+# JVM Crash Logs
+hs_err_pid*
+replay_pid*
+
+### Logs ###
+*.log
+logs/
+log/
+
+### OS Files ###
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+.Trash-*
+
+### Executables ###
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Automatically downloaded webdriver binaries
+chromedriver*
+geckodriver*
+msedgedriver*
+
+### IntelliJ Plugins Cache ###
+.idea/**/libraries
+
+### Misc ###
+*.tmp
+*.bak
+*.swp
+*.swo
+*.cache
+*.lock
+
+### User data ###
 ogameExecData.txt
