@@ -59,9 +59,7 @@ cd OgameExecutor
 Create a runnable JAR
 mvn clean package -DskipTests
 
-
 This generates:
-
 target/ogameExecutor-1.0-SNAPSHOT-shaded.jar
 
 ▶️ Running the Program
@@ -77,7 +75,6 @@ java -jar ogameExecutor-1.0-SNAPSHOT-shaded.jar --headless
 The program accepts configuration parameters from command-line or an external file.
 
 Example .config:
-
 [Login, user@email.com]
 [Password, 123456]
 [ExpoPlanetNumber, 2]
@@ -89,66 +86,39 @@ Example .config:
 
 🧠 Architecture Overview
 Logic/
-
 Contains the entry point OgameExec.java and core automation logic.
-
 Controller/
-
 LoginController
-
 FleetController
-
 MenuController
-
 ResourcesController
-
 Presentation/
-
 Serenity PageObjects handling Selenium interactions.
-
 Data/
-
 Enums representing fleet types, attack types, etc.
 
 ⚙ Browser Drivers
 Firefox
-
 Automatically resolved using Selenium Manager, or manually:
-
 System.setProperty("webdriver.gecko.driver", "path/to/geckodriver.exe");
 
-Chrome
-System.setProperty("webdriver.chrome.driver", "path/to/chromedriver.exe");
-
 📦 Releases
-
 You can use GitHub Actions to automatically build, package, and upload:
-
 ogameExecutor-<version>.jar
-
 Release notes (release.md)
 
 🐞 Known Issues
-
 GraalVM native image support is experimental and currently not recommended.
-
 Selenium Manager may require manual driver paths on some systems.
-
 Serenity components are not fully compatible with native-image builds.
 
 🤝 Contributing
-
 Fork the repository
-
 Create your feature branch
-
 Commit changes
-
 Open a Pull Request
-
 Contributions are welcome!
 
 📄 License
-
 This project is licensed under the MIT License.
 See the LICENSE file for details.
