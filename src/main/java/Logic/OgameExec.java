@@ -67,8 +67,7 @@ public class OgameExec {
                     throw new RuntimeException(e);
                 }
             }
-        }
-
+        }d
         //menuController = new MenuController(driver);
     }
 
