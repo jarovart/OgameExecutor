@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Starting main class.
+ */
 public class OgameExec {
 
 
