@@ -17,7 +17,7 @@ public class LoginPresentation extends PageObject {
     private WebElement general;
     @FindBy(xpath = "//*[@id=\"email\"]")
     private WebElement email;
-    @FindBy(xpath = "/html/body/div[3]/div/div/span[2]/button[2]")
+    @FindBy(xpath = "//button[@class='cookiebanner5']")
     private WebElement clickOnAcceptCookies;
     @FindBy(xpath = "//ul[@class='tabsList']/li[1]")
     private WebElement clickOnEinloggenTab;

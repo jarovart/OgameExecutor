@@ -1,10 +1,9 @@
-package Logic;
+package logic;
 
 import Controller.FleetController;
 import Controller.LoginController;
 import Controller.MenuController;
 import Controller.ResourcesController;
-import net.thucydides.core.annotations.Managed;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -25,13 +24,16 @@ public class OgameExec {
     private final LoginController loginController;
     private final FleetController fleetController;
     private final MenuController menuController;
-    @Managed
     WebDriver driver;
     private ResourcesController resourcesController;
 
+    public static void main(String[] args) throws IOException {
+        new OgameExec();
+    }
+
     public OgameExec() throws IOException {
         Map<String, String> userData = loadCredentials();
-        this.driver = initDriverFirefox("OnlyHeadless");
+        this.driver = initDriverFirefox(userData.get("OnlyHeadless"));
         loginController = new LoginController(driver);
         loginController.loginWithCredentials(userData.get("Login"), userData.get("Password"), userData.get("ServerName"));
         menuController = new MenuController(driver);
@@ -131,11 +133,11 @@ public class OgameExec {
 
 
     private WebDriver initDriverFirefox(String onlyHeadless) {
-        //System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        System.setProperty("webdriver.firefox.driver", "geckodriver.exe");
         FirefoxOptions options = new FirefoxOptions();
-        /*if(onlyHeadless != null && onlyHeadless.equalsIgnoreCase("yes")){
+        if(onlyHeadless != null && onlyHeadless.equalsIgnoreCase("yes")){
             options.addArguments("--headless", "--window-size=1920,1080", "disable-gpu", "--no-sandbox");
-        }*/
+        }
         WebDriver driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
         driver.get("https://ogame.de/");

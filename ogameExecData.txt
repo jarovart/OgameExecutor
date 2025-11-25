@@ -5,4 +5,4 @@ ServerName:Last
 OnlyCivilShips:Yes//no or empty
 maxKTransporter:15000
 maxGTransporter:6200
-OnlyHeadless:Yes//no or empty
+OnlyHeadless:No//Yes, No or empty

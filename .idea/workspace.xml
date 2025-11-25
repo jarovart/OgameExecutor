@@ -9,21 +9,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0498b340-b3c0-48c9-b20b-4cb3021eaa0f" name="Default Changelist" comment="a">
+    <list default="true" id="0498b340-b3c0-48c9-b20b-4cb3021eaa0f" name="Default Changelist" comment="format and clean up code">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/FleetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/FleetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/ResourcesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/ResourcesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Data/Fleet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Data/Fleet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Data/Pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Data/Pair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ogameExecData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ogameExecData.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Logic/OgameExec.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Logic/OgameExec.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Logic/OgameExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Logic/OgameExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Presentation/FleetPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Presentation/FleetPresentation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Logic/OgameExecutor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Presentation/LoginPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Presentation/LoginPresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Presentation/MenuPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Presentation/MenuPresentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Presentation/ResourcesPresentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Presentation/ResourcesPresentation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +51,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -64,41 +62,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/ArtemSave/Documents/Git/ogameexecutor&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Debug",
+    "Application.OgameExec.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "E:/ArtemSave/Documents/Git/ogameexecutor",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "terminal"
   }
-}</component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+}]]></component>
+  <component name="RunManager">
+    <configuration name="OgameExec" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="graalvm-21" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="myartifacid" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OgameExecutor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Logic.OgameExecutor" />
-      <module name="myartifacid" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Logic.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <option name="MAIN_CLASS_NAME" value="logic.OgameExec" />
+      <module name="ogameExecutor" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -118,8 +105,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.OgameExecutor" />
+        <item itemvalue="Application.OgameExec" />
       </list>
     </recent_temporary>
   </component>
@@ -192,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727564786901</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="format and clean up code">
+      <option name="closed" value="true" />
+      <created>1763980183619</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1763980183619</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -211,7 +205,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="a" />
-    <option name="LAST_COMMIT_MESSAGE" value="a" />
+    <MESSAGE value="format and clean up code" />
+    <option name="LAST_COMMIT_MESSAGE" value="format and clean up code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -245,6 +240,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/Presentation/LoginPresentation.java</url>
           <line>69</line>
           <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Presentation/LoginPresentation.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

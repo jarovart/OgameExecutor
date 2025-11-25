@@ -7,9 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="myartifacid" />
         <module name="ogameexecutor" />
         <module name="OgameExecutor" />
+        <module name="ogameExecutor" />
       </profile>
     </annotationProcessing>
   </component>
