@@ -1,4 +1,4 @@
-package logic;
+package Logic;
 
 import Controller.FleetController;
 import Controller.LoginController;
@@ -67,7 +67,7 @@ public class OgameExec {
                     throw new RuntimeException(e);
                 }
             }
-        }d
+        }
         //menuController = new MenuController(driver);
     }
 
